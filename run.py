@@ -8,4 +8,4 @@ app = server.create_app()
 
 if __name__ == '__main__':
     if server.CONFIG.DEBUG:
-        app.run(debug=True)
+        app.run(debug=True, host='0.0.0.0')
