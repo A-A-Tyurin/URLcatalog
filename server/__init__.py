@@ -3,7 +3,7 @@ from logging.handlers import RotatingFileHandler
 
 from flask import Flask
 
-from server import api, config, views
+from server import api, config, logs, views
 from server.models import db
 
 CONFIG = config.Config()
