@@ -1,3 +1,4 @@
+import logging
 from logging import Formatter
 from logging.handlers import RotatingFileHandler
 
@@ -22,6 +23,7 @@ def create_app():
         Formatter('%(asctime)s - %(name)s - %(funcName)s - %(levelname)s: %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p')
     )
     app.logger.addHandler(file_handler)
+    app.logger.setLevel(logging.INFO)
 
     app.register_blueprint(views.routes, url_prefix='/')
     app.register_blueprint(api.routes_v1, url_prefix='/api/v1')
@@ -29,5 +31,7 @@ def create_app():
     db.init_app(app)
     with app.app_context():
         db.create_all()
+    
+    app.logger.info('APP started')
     
     return app
