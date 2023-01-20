@@ -1,0 +1,35 @@
+<table class="table table-striped">
+    {% if fields %}
+    <thead class="thead-dark">
+        <tr>
+        {% for header in fields %}
+            <th scope="col">{{ header | upper }}</th>
+        {% endfor %}
+        {% if action %}
+            <th scope="col">ACTIONS</th>
+        {% endif %}
+        </tr>
+    </thead>
+    {% endif %}
+    <tbody>
+    {% for item in items %}
+        <tr>
+        {% if fields %}
+            {% for field in fields %}
+                <td>{{ item[field] }}</td>
+            {% endfor %}
+        {% else %}
+            <td>{{ item }}</td>
+        {% endif %}
+        
+        {% if action %}
+            <td>
+                <form method="post" action="{{ url_for(action_url, id=item['id']) }}">
+                    <button type="submit" class="btn btn-outline-danger">Delete</button>
+                </form>
+            </td>
+        {% endif %}
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

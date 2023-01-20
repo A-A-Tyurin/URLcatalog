@@ -1,0 +1,10 @@
+<form class="row g-3 mb-4"  method="post" action="{{ url_for(url) }}">
+    {% for field in fields %}
+    <div class="col">
+        <input type="text" class="form-control" id="{{ field }}" name="{{ field }}" placeholder="Filter by {{ field | upper }}" value="{{ values[field] }}">
+    </div>
+    {% endfor %}
+    <div class="col-auto">
+        <button type="submit" class="btn btn-primary">Filter</button>
+    </div>
+</form>

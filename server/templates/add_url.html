@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% set active_page = 'add' %}
+
+{% block container %}
+
+<form class="row g-3 mb-4"  method="post" action="{{ url_for('views.add_url') }}">
+    <div class="mb-3">
+        <input type="text" class="form-control" id="url" name="url" placeholder="Type URL">
+    </div>
+    <div class="mb-3">
+        <button type="submit" class="btn btn-primary">Add</button>
+    </div>
+</form>
+
+<div class="mb-3">OR</div> 
+
+<form class="row g-3 mb-4"  method="post" action="{{ url_for('views.add_url') }}" enctype = "multipart/form-data">
+    <div class="mb-3">
+        <input class="form-control" type="file" id="file" name="file">
+    </div>
+    <div class="mb-3">
+        <button type="submit" class="btn btn-primary">Add</button>
+    </div>
+</form>
+
+{% endblock %}

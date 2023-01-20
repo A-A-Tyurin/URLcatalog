@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% set active_page = 'log' %}
+
+{% block container %}
+
+    {% with action=False, items=logs %}
+        {% include 'includes/table.html' %}
+    {% endwith %}
+
+    <script type="text/javascript">
+        setTimeout(function(){
+            location.reload();
+        }, 5000);
+    </script>
+
+{% endblock %}

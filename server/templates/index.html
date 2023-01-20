@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% set active_page = 'index' %}
+
+{% block container %}
+    
+    {% with fields=['domain', 'zone'], values=filter, url='views.index' %}    
+        {% include 'includes/filter.html' %}
+    {% endwith %}
+
+    {% with action=True, action_url=delete_url, items=urls, fields=['id', 'uuid', 'scheme', 'domain', 'zone', 'path', 'params'] %}
+        {% include 'includes/table.html' %}
+    {% endwith %}
+
+    {% with items=urls, url='views.index' %}
+        {% include 'includes/paginator.html' %}
+    {% endwith %}
+
+{% endblock %}
