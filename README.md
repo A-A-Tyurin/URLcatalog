@@ -23,7 +23,7 @@ sudo docker build . -t url-catalog
 Запустить контейнер:
 
 ```
-sudo docker run -dp 5000:5000 url-catalog
+sudo docker run -i -dp 5000:5000 url-catalog
 ```
 
 ### Локальный dev-сервер:
