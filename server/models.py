@@ -23,7 +23,7 @@ class URL(db.Model):
     def __repr__(self):
         return f'<URL: id={self.id}, domain={self.domain}>'
 
-    def save(self):    
+    def save(self):
         db.session.add(self)
         db.session.commit()
         return self
