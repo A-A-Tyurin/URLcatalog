@@ -24,6 +24,8 @@ class URL(db.Model):
         return f'<URL: id={self.id}, domain={self.domain}>'
 
     def save(self):
+        if URL.check_exists(self):
+            raise ValueError('URL exists')
         db.session.add(self)
         db.session.commit()
         return self
@@ -42,6 +44,14 @@ class URL(db.Model):
             'path': self.path,
             'params': self.params,
         }
+
+    @staticmethod
+    def check_exists(url):
+        filter = url.to_dict()
+        filter.pop('id')
+        filter.pop('uuid')
+        filter.pop('params') if not filter['params'] else None
+        return db.session.query(URL).filter_by(**filter).count() > 0
 
     @classmethod
     def from_string(cls, url):
@@ -66,20 +76,20 @@ class URL(db.Model):
 
     @staticmethod
     def get_objects_from_csv(file_path, remove_file=True):
-        total_count, urls = 0, []
-       
+        urls = []
         with open(file_path, 'r', encoding='utf-8') as file:
-            for row in csv.reader(file):
-                total_count += 1
-                try:
-                    urls.append(URL.from_string(*row))
-                except ValueError:
-                    pass
-        
+            rows = [row[0] for row in csv.reader(file)]
+
         if remove_file:
             os.remove(file_path)
 
-        return total_count, urls
+        for url in set(rows):
+            try:
+                urls.append(URL.from_string(url))
+            except ValueError:
+                pass
+
+        return len(rows), urls
     
     @staticmethod
     def save_from_objects_list(urls):

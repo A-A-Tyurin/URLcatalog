@@ -1,3 +1,4 @@
+{% if items.total > 0 %}
 <nav>
     <ul class="pagination justify-content-center">
         <li class="page-item {% if items.page == 1 %}disabled{% endif %}">
@@ -25,3 +26,4 @@
         </li>
     </ul>
 </nav>
+{% endif %}

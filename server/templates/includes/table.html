@@ -30,6 +30,10 @@
             </td>
         {% endif %}
         </tr>
+        {% else %}
+        <tr>
+            <td colspan="{{ fields | length + 1 }}">No items</td>
+        </tr>
     {% endfor %}
     </tbody>
 </table>

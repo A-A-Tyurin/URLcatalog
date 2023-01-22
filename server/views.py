@@ -1,8 +1,8 @@
-from flask import Blueprint, render_template, redirect, request, session, url_for
+from flask import Blueprint, flash, render_template, redirect, request, session, url_for
 
 import server
 from server.models import URL
-from server.utils import form_data_to_dict, process_csv
+from server.utils import get_log_records, form_data_to_dict, process_csv
 
 
 routes = Blueprint('views', __name__)
@@ -31,21 +31,25 @@ def add_url():
         return render_template('add_url.html')
 
     if request.method == 'POST':
-        if 'file' in request.files:
-            _, urls = process_csv(request.files['file'])
-            URL.save_from_objects_list(urls)
-        if url_text := request.form.get('url'):
-            URL.from_string(url_text).save()
+        try:
+            if 'file' in request.files:
+                total, urls = process_csv(request.files['file'])
+                URL.save_from_objects_list(urls)
+                flash(f'Total urls: {total}, {len(urls)} added, {total-len(urls)} errors')
+            if url_text := request.form.get('url'):
+                url = URL.from_string(url_text).save()
+                flash(f'{url} added')
+        except ValueError as error:
+            flash(f'Error: {error}')
         return redirect(url_for('views.index'))
 
 @routes.route('/delete/<int:id>', methods=['POST'])
 def delete_url(id):
     if url := URL.query.get(id):
         url.delete()
+        flash(f'{url} deleted')
     return redirect(url_for('views.index'))
 
 @routes.route('/log/', methods=['GET'])
 def get_log():
-    with open(server.CONFIG.LOG_PATH, 'r', encoding='utf-8') as log:
-        records = log.readlines()[:-21:-1]
-    return render_template('log.html', logs=records)
+    return render_template('log.html', logs=get_log_records(20))

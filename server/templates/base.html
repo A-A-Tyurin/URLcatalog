@@ -11,7 +11,17 @@
   <body>
         <div class="container">
             {% include 'includes/header.html' %}
+
             {% block container %}{% endblock %}
+
+            {% include 'includes/popup.html' %}
         </div>
+        <script type="text/javascript">
+          $(function() {
+            if ($('#flash_messages_content').html().trim() != '') {
+              $('#flash_messages').modal('show')
+            }
+          });
+      </script> 
   </body>
 </html>

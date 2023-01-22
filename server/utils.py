@@ -83,3 +83,8 @@ def process_csv(file):
     path = os.path.join(server.CONFIG.UPLOAD_DIR, filename)
     file.save(path)
     return run_background(path)
+
+def get_log_records(count):
+    with open(server.CONFIG.LOG_PATH, 'r', encoding='utf-8') as log:
+       records = log.readlines()[:-(count + 1):-1]
+    return records

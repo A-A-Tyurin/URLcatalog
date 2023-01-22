@@ -2,7 +2,9 @@ from flask import abort, Blueprint, request
 
 import server
 from server.models import URL
-from server.utils import validate_json, query_string_to_dict, process_csv
+from server.utils import (
+    get_log_records, process_csv, validate_json, query_string_to_dict, 
+)
 
 
 routes_v1 = Blueprint('routes_v1', __name__)
@@ -43,7 +45,4 @@ def get_url_by_uuid(uuid):
 
 @routes_v1.route('/log', methods=['GET'])
 def get_log():
-    records = []
-    with open(server.CONFIG.LOG_PATH, 'r', encoding='utf-8') as log:
-       records = log.readlines()[:-21:-1]
-    return records, 200
+    return get_log_records(20), 200

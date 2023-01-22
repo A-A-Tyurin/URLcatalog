@@ -20,7 +20,7 @@ def create_app():
             encoding='utf-8'
         )
     file_handler.setFormatter(
-        Formatter('%(asctime)s - %(name)s - %(funcName)s - %(levelname)s: %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p')
+        Formatter('%(asctime)s - %(name)s - %(funcName)s - %(levelname)s: %(message)s', datefmt='%d-%m-%Y %H:%M:%S')
     )
     app.logger.addHandler(file_handler)
     app.logger.setLevel(logging.INFO)
